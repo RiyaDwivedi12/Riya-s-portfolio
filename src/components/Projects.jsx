@@ -5,7 +5,20 @@ import { FaApple, FaStickyNote, FaFutbol } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
 
 // Map project IDs to custom illustrative SVG graphics for premium visual feel
-const ProjectVisual = ({ id }) => {
+const ProjectVisual = ({ project, id }) => {
+  if (project?.image) {
+    return (
+      <div className="w-full h-full relative overflow-hidden bg-slate-900/40 flex items-center justify-center">
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
+      </div>
+    );
+  }
+
   if (id === 'yarn-art-store') {
     return (
       <div className="w-full h-full bg-gradient-to-tr from-rose-500/20 via-pink-500/10 to-violet-500/20 flex flex-col items-center justify-center relative p-6">
@@ -185,7 +198,7 @@ export default function Projects() {
               >
                 {/* Visual Top Area */}
                 <div className="h-48 overflow-hidden relative border-b border-slate-200/50 dark:border-slate-800/80 bg-slate-900/10">
-                  <ProjectVisual id={project.id} />
+                  <ProjectVisual project={project} id={project.id} />
                   
                   {/* Category tag */}
                   <span className="absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-white px-3 py-1 rounded-full shadow-sm">
@@ -216,24 +229,35 @@ export default function Projects() {
                   </div>
 
                   {/* Call-to-actions */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200/50 dark:border-slate-800/80">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-800 dark:text-white hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
-                    >
-                      <FiGithub className="w-4 h-4" /> Code
-                    </a>
+                  <div className="flex items-center flex-wrap gap-3 pt-4 border-t border-slate-200/50 dark:border-slate-800/80">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-800 dark:text-white hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                      >
+                        <FiGithub className="w-4 h-4" /> Code
+                      </a>
+                    )}
 
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-650 text-white shadow-md hover:shadow-sky-500/15 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
-                    >
-                      <FiExternalLink className="w-4 h-4" /> Live Demo
-                    </a>
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-650 text-white shadow-md hover:shadow-sky-500/15 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                      >
+                        <FiExternalLink className="w-4 h-4" /> Live Demo
+                      </a>
+                    )}
+
+                    {!project.github && !project.live && (
+                      <div className="flex items-center space-x-2 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/50 px-3.5 py-2 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>Mobile App • Private / Client Repository</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.article>
