@@ -114,7 +114,7 @@ const ProjectVisual = ({ id }) => {
   return <div className="w-full h-full bg-slate-200 dark:bg-slate-800" />;
 };
 
-const CATEGORIES = ["All", "MERN Stack"];
+const CATEGORIES = ["All", "MERN Stack", "React Native"];
 
 export default function Projects() {
   const { projects } = portfolioData;

@@ -140,7 +140,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[10px] uppercase font-mono text-slate-400 font-bold">Location</p>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Ludhiana, Punjab, India (Open to Remote / Relocate)</p>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{personalInfo.location} (Open to Remote / Relocate)</p>
                 </div>
               </div>
             </div>
