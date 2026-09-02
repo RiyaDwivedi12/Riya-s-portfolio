@@ -160,8 +160,8 @@ export default function Hero() {
 
             <a
               href={personalInfo.resumeUrl}
-              download
-              className="px-6 py-3.5 rounded-xl text-sm font-semibold border border-sky-500/30 hover:border-sky-500 text-sky-600 dark:text-sky-400 bg-sky-500/5 hover:bg-sky-500/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+              download="Riya_Dwivedi_Resume.pdf"
+              className="px-6 py-3.5 rounded-xl text-sm font-semibold border border-sky-500/30 hover:border-sky-500 text-sky-600 dark:text-sky-400 bg-sky-500/5 hover:bg-sky-500/10 hover:scale-105 active:scale-98 transition-all flex items-center gap-2"
             >
               Resume <FiDownload className="w-4 h-4" />
             </a>

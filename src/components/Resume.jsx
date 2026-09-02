@@ -112,6 +112,7 @@ export default function Resume() {
               style={{ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' }}
             >
               {/* Header Info */}
+              {/* Header Info */}
               <div className="text-center space-y-2 mb-6">
                 <h1 className="text-3xl font-bold text-[#002060] tracking-wide uppercase">
                   {personalInfo.name}
@@ -121,23 +122,34 @@ export default function Resume() {
                 </p>
                 
                 {/* Contact row */}
-                <div className="text-[11px] text-slate-800 space-x-4 flex justify-center items-center flex-wrap mt-2">
+                <div className="text-[11px] text-slate-800 space-x-3 flex justify-center items-center flex-wrap mt-2">
                   <span>{personalInfo.location}</span>
-                  <span className="text-slate-400">•</span>
+                  <span className="text-slate-400">|</span>
+                  <span>{personalInfo.phone || '+91 9640835030'}</span>
+                  <span className="text-slate-400">|</span>
                   <a href={`mailto:${personalInfo.email}`} className="text-blue-700 underline hover:text-blue-900">
                     {personalInfo.email}
                   </a>
                 </div>
                 
-                {/* LinkedIn Link */}
-                <div className="text-[11px] text-slate-800 flex justify-center items-center mt-1">
+                {/* Links */}
+                <div className="text-[11px] text-slate-800 space-x-3 flex justify-center items-center mt-1">
                   <a 
                     href={personalInfo.linkedin} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-blue-700 underline hover:text-blue-900"
                   >
-                    linkedin.com/in/riya-dwivedi-120a87350
+                    LinkedIn
+                  </a>
+                  <span className="text-slate-400">|</span>
+                  <a 
+                    href={personalInfo.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-700 underline hover:text-blue-900"
+                  >
+                    GitHub
                   </a>
                 </div>
               </div>
@@ -173,7 +185,7 @@ export default function Resume() {
 
                   <div>
                     <div className="text-[11px] font-bold text-slate-900">
-                      Class 12th – 85% (Senior Secondary)
+                      Class 12th – 85%
                     </div>
                     <div className="text-[11px] text-slate-800 italic">
                       Children Valley Senior Secondary School
@@ -182,7 +194,7 @@ export default function Resume() {
 
                   <div>
                     <div className="text-[11px] font-bold text-slate-900">
-                      Class 10th – 89% (Secondary)
+                      Class 10th – 89%
                     </div>
                     <div className="text-[11px] text-slate-800 italic">
                       Sunrise Convent Senior Secondary School
@@ -200,18 +212,48 @@ export default function Resume() {
                 
                 <ul className="text-[11px] space-y-1 text-slate-900">
                   <li>
-                    <span className="font-bold">Languages & Core:</span> HTML, CSS, JavaScript
+                    <span className="font-bold">Languages:</span> C++, JavaScript, HTML, CSS
                   </li>
                   <li>
-                    <span className="font-bold">MERN Stack:</span> React.js, Node.js, Express.js, MongoDB
+                    <span className="font-bold">Frontend:</span> React.js, React Native, Tailwind CSS
                   </li>
                   <li>
-                    <span className="font-bold">Tools:</span> Git & GitHub, Vercel, Render
+                    <span className="font-bold">Backend:</span> Node.js, Express.js
                   </li>
                   <li>
-                    <span className="font-bold">Specializations:</span> Full Stack Development, Responsive Design
+                    <span className="font-bold">Database:</span> MongoDB
+                  </li>
+                  <li>
+                    <span className="font-bold">Tools:</span> Git, GitHub, Vercel, Render, VS Code
+                  </li>
+                  <li>
+                    <span className="font-bold">Other:</span> REST API, JWT, Cloudinary
                   </li>
                 </ul>
+              </div>
+
+              {/* Section: INTERNSHIP */}
+              <div className="mb-5">
+                <h3 className="text-xs font-bold text-[#002060] uppercase tracking-wide">
+                  INTERNSHIP
+                </h3>
+                <div className="border-b border-[#002060] pb-0.5 mb-2" />
+                
+                <div>
+                  <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                    <span>Software Developer Intern</span>
+                    <span className="italic font-normal">Devoic Skilltech Consultancy Pvt. Ltd.</span>
+                  </div>
+                  <div className="text-[11px] font-semibold text-slate-800 italic mb-1">
+                    PlayConnect Development
+                  </div>
+                  <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
+                    <li>Working on the development of PlayConnect, a sports matchmaking application.</li>
+                    <li>Developing features that help users find and connect with sports players.</li>
+                    <li>Working with React Native and Convex for application development and backend integration.</li>
+                    <li>Working on user authentication, match creation, and nearby sports match features.</li>
+                  </ul>
+                </div>
               </div>
 
               {/* Section: PROJECTS */}
@@ -221,33 +263,52 @@ export default function Resume() {
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 
-                <div>
-                  <div className="text-[11px] font-bold text-slate-900">
-                    Yarn Art Store – Handmade Crafts & Learning Platform
+                <div className="space-y-3">
+                  <div>
+                    <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                      <span>PlayConnect – Sports Matchmaking App</span>
+                      <span className="italic font-normal">React Native | Convex</span>
+                    </div>
+                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900 mt-1">
+                      <li>Built a sports application that helps players find and connect with other players.</li>
+                      <li>Added features for creating and finding sports matches.</li>
+                      <li>Implemented user authentication and backend integration.</li>
+                      <li>Designed features to help players find nearby sports matches.</li>
+                    </ul>
                   </div>
-                  <div className="text-[11px] text-slate-900 mb-1">
-                    <span className="font-bold">Live Demo:</span>{' '}
-                    <a 
-                      href="https://yarn-art-store.vercel.app" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-blue-700 underline hover:text-blue-900"
-                    >
-                      https://yarn-art-store.vercel.app
-                    </a>
+
+                  <div>
+                    <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                      <span>Yarn Art Store – E-Commerce Website</span>
+                      <span className="text-[10px]">
+                        <a 
+                          href="https://github.com/RiyaDwivedi12/yarn-art-store" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-blue-700 underline mr-2"
+                        >
+                          GitHub
+                        </a>
+                        |
+                        <a 
+                          href="https://yarn-art-store.vercel.app" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-blue-700 underline ml-2"
+                        >
+                          Live Demo
+                        </a>
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-slate-700 italic">MERN Stack | Cloudinary</div>
+                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900 mt-1">
+                      <li>Built a full-stack e-commerce website for selling yarn and handmade products.</li>
+                      <li>Added product search, categories, product details, cart, and wishlist features.</li>
+                      <li>Created an admin section to manage products and orders.</li>
+                      <li>Used Cloudinary to store and manage product images.</li>
+                      <li>Developed the application using React.js, Node.js, Express.js, and MongoDB.</li>
+                    </ul>
                   </div>
-                  
-                  <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
-                    <li>
-                      Built a full-stack MERN application combining an e-commerce platform and an e-learning system for yarn art and DIY crafts.
-                    </li>
-                    <li>
-                      Developed features including user authentication, product management, shopping cart, course enrollment, and admin dashboard using React.js, Node.js, Express.js, and MongoDB.
-                    </li>
-                    <li>
-                      Implemented secure JWT authentication and deployed the project using Vercel and Render.
-                    </li>
-                  </ul>
                 </div>
               </div>
 
@@ -258,7 +319,7 @@ export default function Resume() {
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 <p className="text-[11px] text-slate-900">
-                  Quick Learner &nbsp;•&nbsp; Creative Thinking &nbsp;•&nbsp; Positive Attitude
+                  Quick Learner &nbsp;|&nbsp; Problem Solving &nbsp;|&nbsp; Teamwork &nbsp;|&nbsp; Positive Attitude
                 </p>
               </div>
 
@@ -269,7 +330,7 @@ export default function Resume() {
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 <p className="text-[11px] text-slate-900">
-                  English &nbsp;•&nbsp; Hindi &nbsp;•&nbsp; Punjabi
+                  English &nbsp;|&nbsp; Hindi &nbsp;|&nbsp; Punjabi
                 </p>
               </div>
 
@@ -280,7 +341,7 @@ export default function Resume() {
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 <p className="text-[11px] text-slate-900">
-                  Seeking internship opportunities in Frontend Development, MERN Stack Development, and Software Development.
+                  {personalInfo.objective || 'Looking for opportunities in Frontend Development, MERN Stack Development, and Software Development where I can use my skills, learn new technologies, and contribute to real-world projects.'}
                 </p>
               </div>
 
@@ -314,7 +375,7 @@ export default function Resume() {
               {/* PDF Resume Link */}
               <a
                 href={personalInfo.resumeUrl}
-                download
+                download="Riya_Dwivedi_Resume.pdf"
                 className="px-6 py-3.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer w-full"
               >
                 <FiDownload className="w-4 h-4" /> Download PDF Resume
@@ -325,10 +386,6 @@ export default function Resume() {
                 href={personalInfo.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open(personalInfo.resumeUrl, '_blank', 'noopener,noreferrer');
-                }}
                 className="px-6 py-3.5 rounded-xl text-xs font-bold border border-sky-500/20 hover:border-sky-500/50 bg-sky-500/5 hover:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 w-full cursor-pointer"
               >
                 <FiFileText className="w-4 h-4" /> Open Original PDF
