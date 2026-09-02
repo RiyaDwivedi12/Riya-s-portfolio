@@ -4,9 +4,9 @@ import { FiDownload, FiArrowRight, FiMessageSquare } from 'react-icons/fi';
 import { portfolioData } from '../data/portfolioData';
 
 const TYPING_WORDS = [
-  "MERN Stack Specialist",
-  "React & Node.js Architect",
-  "UI/UX Enthusiast",
+  "Software Developer",
+  "MERN Stack Developer",
+  "Frontend Developer",
   "Problem Solver"
 ];
 
