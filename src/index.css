@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,21 +10,26 @@
   }
   
   body {
-    @apply bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-sky-500/30 selection:text-sky-900 dark:selection:text-sky-200;
+    @apply bg-slate-50 text-slate-900 dark:bg-navy-950 dark:text-slate-100 antialiased transition-colors duration-300;
+  }
+
+  ::selection {
+    background-color: rgba(255, 94, 77, 0.35);
+    color: #ffffff;
   }
 }
 
 @layer utilities {
   .glassmorphism {
-    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-800/30 shadow-lg;
+    @apply bg-white/80 border border-slate-200/80 shadow-lg dark:bg-navy-900/70 dark:border-navy-800/80 dark:shadow-xl backdrop-blur-md;
   }
   
   .glassmorphism-card {
-    @apply bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 dark:border-slate-800/30 shadow-md transition-all duration-300 hover:shadow-xl hover:bg-white/60 dark:hover:bg-slate-900/60;
+    @apply bg-white/70 border border-slate-200/80 shadow-md hover:shadow-xl dark:bg-navy-900/60 dark:border-navy-800/80 dark:shadow-lg dark:hover:border-coral-500/40 backdrop-blur-md transition-all duration-300;
   }
 
   .text-glow {
-    text-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+    text-shadow: 0 0 20px rgba(255, 94, 77, 0.4);
   }
 }
 
@@ -34,13 +39,13 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100 dark:bg-slate-900;
+  @apply bg-slate-100 dark:bg-navy-950;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 dark:bg-slate-700 rounded-full border-2 border-slate-100 dark:border-slate-900;
+  @apply bg-slate-300 dark:bg-navy-800 rounded-full border-2 border-slate-100 dark:border-navy-950;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400 dark:bg-slate-600;
+  background-color: rgba(255, 94, 77, 0.6);
 }

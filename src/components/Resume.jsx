@@ -10,7 +10,7 @@ export default function Resume() {
   };
 
   return (
-    <section id="resume" className="py-24 bg-slate-100/50 dark:bg-slate-900/30 px-4 sm:px-6 lg:px-8">
+    <section id="resume" className="py-24 bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-slate-100 px-4 sm:px-6 lg:px-8 relative transition-colors duration-300">
       {/* Inject print-specific styles locally */}
       <style dangerouslySetInnerHTML={{ __html: `
         @page {
@@ -30,7 +30,7 @@ export default function Resume() {
             left: 0;
             top: 0;
             width: 210mm;
-            height: 297mm;
+            min-height: 297mm;
             margin: 0 !important;
             padding: 1cm 1.2cm !important;
             box-shadow: none !important;
@@ -39,7 +39,7 @@ export default function Resume() {
             color: black !important;
             font-size: 9.5px !important;
             line-height: 1.35 !important;
-            overflow: hidden !important;
+            overflow: visible !important;
           }
           #resume-print-area h1 {
             font-size: 20px !important;
@@ -73,25 +73,17 @@ export default function Resume() {
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent mb-2"
-          >
-            Curriculum Vitae
-          </motion.h2>
-          <motion.h3
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans"
-          >
-            Academic Style Resume Preview
-          </motion.h3>
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Curriculum Vitae
+            </h2>
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl">
+            Live preview of my resume. Print, export as PDF, or view the pre-compiled document.
+          </p>
         </div>
 
         {/* Content split grid */}
@@ -105,13 +97,12 @@ export default function Resume() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-8 w-full overflow-x-auto"
           >
-            {/* The white paper container - Styled to look exactly like the user's uploaded image */}
+            {/* The white paper container - Clean Academic Standard */}
             <div 
               id="resume-print-area"
               className="mx-auto min-w-[700px] max-w-[800px] bg-white text-black text-left shadow-2xl border border-slate-200 p-12 sm:p-16 font-serif relative"
               style={{ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' }}
             >
-              {/* Header Info */}
               {/* Header Info */}
               <div className="text-center space-y-2 mb-6">
                 <h1 className="text-3xl font-bold text-[#002060] tracking-wide uppercase">
@@ -184,8 +175,9 @@ export default function Resume() {
                   </div>
 
                   <div>
-                    <div className="text-[11px] font-bold text-slate-900">
-                      Class 12th – 85%
+                    <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                      <span>Senior Secondary (12th) – 85%</span>
+                      <span>2021–2023</span>
                     </div>
                     <div className="text-[11px] text-slate-800 italic">
                       Children Valley Senior Secondary School
@@ -193,8 +185,9 @@ export default function Resume() {
                   </div>
 
                   <div>
-                    <div className="text-[11px] font-bold text-slate-900">
-                      Class 10th – 89%
+                    <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                      <span>Secondary School (10th) – 89%</span>
+                      <span>2019–2021</span>
                     </div>
                     <div className="text-[11px] text-slate-800 italic">
                       Sunrise Convent Senior Secondary School
@@ -210,49 +203,11 @@ export default function Resume() {
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 
-                <ul className="text-[11px] space-y-1 text-slate-900">
-                  <li>
-                    <span className="font-bold">Languages:</span> C++, JavaScript, HTML, CSS
-                  </li>
-                  <li>
-                    <span className="font-bold">Frontend:</span> React.js, React Native, Tailwind CSS
-                  </li>
-                  <li>
-                    <span className="font-bold">Backend:</span> Node.js, Express.js
-                  </li>
-                  <li>
-                    <span className="font-bold">Database:</span> MongoDB
-                  </li>
-                  <li>
-                    <span className="font-bold">Tools:</span> Git, GitHub, Vercel, Render, VS Code
-                  </li>
-                  <li>
-                    <span className="font-bold">Other:</span> REST API, JWT, Cloudinary
-                  </li>
-                </ul>
-              </div>
-
-              {/* Section: INTERNSHIP */}
-              <div className="mb-5">
-                <h3 className="text-xs font-bold text-[#002060] uppercase tracking-wide">
-                  INTERNSHIP
-                </h3>
-                <div className="border-b border-[#002060] pb-0.5 mb-2" />
-                
-                <div>
-                  <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
-                    <span>Software Developer Intern</span>
-                    <span className="italic font-normal">Devoic Skilltech Consultancy Pvt. Ltd.</span>
-                  </div>
-                  <div className="text-[11px] font-semibold text-slate-800 italic mb-1">
-                    PlayConnect Development
-                  </div>
-                  <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
-                    <li>Working on the development of PlayConnect, a sports matchmaking application.</li>
-                    <li>Developing features that help users find and connect with sports players.</li>
-                    <li>Working with React Native and Convex for application development and backend integration.</li>
-                    <li>Working on user authentication, match creation, and nearby sports match features.</li>
-                  </ul>
+                <div className="space-y-1.5 text-[11px] text-slate-900">
+                  <div><strong>Frontend:</strong> React.js, HTML5, CSS3, JavaScript, Tailwind CSS</div>
+                  <div><strong>Backend:</strong> Node.js, Express.js, REST APIs</div>
+                  <div><strong>Database:</strong> MongoDB</div>
+                  <div><strong>Developer Tools & Platforms:</strong> Git, GitHub, VS Code, Vercel, Render, Cloudinary</div>
                 </div>
               </div>
 
@@ -264,84 +219,67 @@ export default function Resume() {
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 
                 <div className="space-y-3">
+                  {/* Khelza Project */}
                   <div>
                     <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
-                      <span>PlayConnect – Sports Matchmaking App</span>
-                      <span className="italic font-normal">React Native | Convex</span>
+                      <span>Khelza – Sports Matchmaking & Athlete Networking App</span>
+                      <span>React Native • Convex</span>
                     </div>
-                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900 mt-1">
-                      <li>Built a sports application that helps players find and connect with other players.</li>
-                      <li>Added features for creating and finding sports matches.</li>
-                      <li>Implemented user authentication and backend integration.</li>
-                      <li>Designed features to help players find nearby sports matches.</li>
+                    <p className="text-[11px] text-slate-700 italic mb-1">
+                      Devoic Skilltech Consultancy Pvt. Ltd. (Internship)
+                    </p>
+                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
+                      <li>Engineered multi-screen mobile sports platform connecting players and organizing matches in real time.</li>
+                      <li>Integrated interactive map geolocation with Leaflet / OpenStreetMap for ground location pins and match discovery.</li>
+                      <li>Built real-time match synchronization, spot reservation, attendee tracking, and athlete social networking with Convex.</li>
                     </ul>
                   </div>
 
+                  {/* Yarn Art Store */}
                   <div>
                     <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
-                      <span>Yarn Art Store – E-Commerce Website</span>
-                      <span className="text-[10px]">
-                        <a 
-                          href="https://github.com/RiyaDwivedi12/yarn-art-store" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-blue-700 underline mr-2"
-                        >
-                          GitHub
-                        </a>
-                        |
-                        <a 
-                          href="https://yarn-art-store.vercel.app" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-blue-700 underline ml-2"
-                        >
-                          Live Demo
-                        </a>
-                      </span>
+                      <span>Yarn Art Store – Full Stack E-Commerce Platform</span>
+                      <span>MERN Stack</span>
                     </div>
-                    <div className="text-[10px] text-slate-700 italic">MERN Stack | Cloudinary</div>
-                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900 mt-1">
-                      <li>Built a full-stack e-commerce website for selling yarn and handmade products.</li>
-                      <li>Added product search, categories, product details, cart, and wishlist features.</li>
-                      <li>Created an admin section to manage products and orders.</li>
-                      <li>Used Cloudinary to store and manage product images.</li>
-                      <li>Developed the application using React.js, Node.js, Express.js, and MongoDB.</li>
+                    <p className="text-[11px] text-slate-700 italic mb-1">
+                      Independent Project • Live at yarn-art-store.vercel.app
+                    </p>
+                    <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
+                      <li>Developed complete e-commerce website for yarn and handmade goods with search, categories, and shopping cart.</li>
+                      <li>Designed secure REST APIs with Node.js and Express; modeled product, user, and order schemas in MongoDB.</li>
+                      <li>Implemented Cloudinary integration for cloud-based image storage and optimization with responsive frontend.</li>
                     </ul>
                   </div>
                 </div>
               </div>
 
-              {/* Section: STRENGTHS */}
+              {/* Section: EXPERIENCE */}
               <div className="mb-5">
                 <h3 className="text-xs font-bold text-[#002060] uppercase tracking-wide">
-                  STRENGTHS
+                  EXPERIENCE
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
-                <p className="text-[11px] text-slate-900">
-                  Quick Learner &nbsp;|&nbsp; Problem Solving &nbsp;|&nbsp; Teamwork &nbsp;|&nbsp; Positive Attitude
-                </p>
+                
+                <div>
+                  <div className="flex justify-between items-baseline text-[11px] font-bold text-slate-900">
+                    <span>Software Developer Intern – Devoic Skilltech Consultancy Pvt. Ltd.</span>
+                    <span>Present</span>
+                  </div>
+                  <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900 mt-1">
+                    <li>Actively developing the Khelza mobile sports networking application using React Native and Convex backend.</li>
+                    <li>Implementing authentication, match discovery algorithms, map location services, and responsive UI.</li>
+                  </ul>
+                </div>
               </div>
 
-              {/* Section: LANGUAGES */}
+              {/* Section: STRENGTHS & LANGUAGES */}
               <div className="mb-5">
                 <h3 className="text-xs font-bold text-[#002060] uppercase tracking-wide">
-                  LANGUAGES
+                  CORE STRENGTHS & LANGUAGES
                 </h3>
                 <div className="border-b border-[#002060] pb-0.5 mb-2" />
                 <p className="text-[11px] text-slate-900">
-                  English &nbsp;|&nbsp; Hindi &nbsp;|&nbsp; Punjabi
-                </p>
-              </div>
-
-              {/* Section: CAREER GOAL */}
-              <div>
-                <h3 className="text-xs font-bold text-[#002060] uppercase tracking-wide">
-                  CAREER GOAL
-                </h3>
-                <div className="border-b border-[#002060] pb-0.5 mb-2" />
-                <p className="text-[11px] text-slate-900">
-                  {personalInfo.objective || 'Looking for opportunities in Frontend Development, MERN Stack Development, and Software Development where I can use my skills, learn new technologies, and contribute to real-world projects.'}
+                  <strong>Languages:</strong> English, Hindi, Punjabi &nbsp;|&nbsp; <strong>Strengths:</strong> Problem Solving, Quick Learner, Team Player
                 </p>
               </div>
 
@@ -367,7 +305,7 @@ export default function Resume() {
               {/* Native Print Action */}
               <button
                 onClick={handlePrint}
-                className="px-6 py-3.5 rounded-xl text-xs font-bold bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-600 hover:to-violet-700 text-white shadow-lg hover:shadow-sky-500/20 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer w-full"
+                className="px-6 py-3.5 rounded-full text-xs font-bold bg-coral-500 hover:bg-coral-600 text-white shadow-lg shadow-coral-500/25 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer w-full"
               >
                 <FiPrinter className="w-4 h-4" /> Print / Save as PDF
               </button>
@@ -376,7 +314,7 @@ export default function Resume() {
               <a
                 href={personalInfo.resumeUrl}
                 download="Riya_Dwivedi_Resume.pdf"
-                className="px-6 py-3.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer w-full"
+                className="px-6 py-3.5 rounded-full text-xs font-bold border-2 border-coral-500 text-slate-800 dark:text-white hover:bg-coral-500/10 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer w-full"
               >
                 <FiDownload className="w-4 h-4" /> Download PDF Resume
               </a>
@@ -386,7 +324,7 @@ export default function Resume() {
                 href={personalInfo.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl text-xs font-bold border border-sky-500/20 hover:border-sky-500/50 bg-sky-500/5 hover:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 w-full cursor-pointer"
+                className="px-6 py-3.5 rounded-full text-xs font-bold bg-white dark:bg-navy-900/80 border border-slate-200 dark:border-navy-800 hover:border-coral-500/40 text-slate-700 dark:text-slate-300 hover:text-coral-600 dark:hover:text-white hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 w-full cursor-pointer shadow-sm"
               >
                 <FiFileText className="w-4 h-4" /> Open Original PDF
               </a>

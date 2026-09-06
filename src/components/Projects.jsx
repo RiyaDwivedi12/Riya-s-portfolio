@@ -1,166 +1,213 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiGithub, FiExternalLink } from 'react-icons/fi';
-import { FaApple, FaStickyNote, FaFutbol } from 'react-icons/fa';
+import { 
+  FiGithub, 
+  FiExternalLink, 
+  FiSmartphone, 
+  FiX, 
+  FiChevronLeft, 
+  FiChevronRight, 
+  FiLayers, 
+  FiCheckCircle,
+  FiGlobe
+} from 'react-icons/fi';
 import { portfolioData } from '../data/portfolioData';
 
-// Map project IDs to custom illustrative SVG graphics for premium visual feel
-const ProjectVisual = ({ project, id }) => {
-  if (project?.image) {
-    return (
-      <div className="w-full h-full relative overflow-hidden bg-slate-900/40 flex items-center justify-center">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
-      </div>
-    );
-  }
+// Map project IDs to custom illustrative or screenshot-based visuals
+const ProjectVisual = ({ project, id, onOpenGallery }) => {
+  // Mobile app with real screenshots (Khelza)
+  if (id === 'khelza-sports' || id === 'sports-finder' || project.screenshots) {
+    const screens = project.screenshots || [];
+    const previewImage = screens[0]?.src || '/projects/khelza/home.png';
 
-  if (id === 'yarn-art-store') {
     return (
-      <div className="w-full h-full bg-gradient-to-tr from-rose-500/20 via-pink-500/10 to-violet-500/20 flex flex-col items-center justify-center relative p-6">
-        {/* Floating background dots */}
-        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ec4899_0.5px,transparent_0.5px)] [background-size:16px_16px]" />
-        
-        {/* Animated Yarn Visual */}
-        <div className="relative z-10 flex flex-col items-center space-y-2">
-          {/* Custom SVG Yarn Art Ball with Knitting Needles */}
-          <svg className="w-16 h-16 text-pink-500 animate-pulse" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Knitting Needle 1 */}
-            <line x1="15" y1="85" x2="85" y2="15" stroke="#ec4899" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
-            <circle cx="85" cy="15" r="4" fill="#db2777" />
+      <div 
+        onClick={() => onOpenGallery && onOpenGallery(project)}
+        className="w-full h-full bg-gradient-to-tr from-slate-900 via-navy-900 to-coral-950/30 flex items-center justify-center relative p-4 overflow-hidden group cursor-pointer"
+        role="button"
+        tabIndex={0}
+        aria-label={`View screenshots for ${project.title}`}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onOpenGallery && onOpenGallery(project);
+          }
+        }}
+      >
+        {/* Dynamic ambient background */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ff5e4d_1px,transparent_1px)] [background-size:16px_16px]" />
+        <div className="absolute -top-10 -right-10 w-36 h-36 bg-coral-500/15 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-36 h-36 bg-amber-500/15 rounded-full blur-2xl pointer-events-none" />
+
+        {/* Smartphone Mockup Preview */}
+        <div className="relative w-32 sm:w-36 h-48 sm:h-52 rounded-[22px] p-1.5 bg-gradient-to-b from-slate-700 via-navy-800 to-navy-950 shadow-2xl border border-navy-700/80 transform group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500 flex flex-col">
+          {/* Dynamic Island / Speaker */}
+          <div className="h-2 w-full flex items-center justify-center py-0.5">
+            <div className="w-9 h-1 bg-navy-900 rounded-full" />
+          </div>
+
+          {/* Screen Display */}
+          <div className="relative flex-1 rounded-[14px] overflow-hidden bg-navy-950">
+            <img
+              src={previewImage}
+              alt="Khelza Sports App Preview"
+              className="w-full h-full object-cover object-top"
+            />
+            {/* Subtle gloss overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
             
-            {/* Knitting Needle 2 */}
-            <line x1="85" y1="85" x2="15" y2="15" stroke="#f43f5e" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
-            <circle cx="15" cy="15" r="4" fill="#e11d48" />
+            {/* Hover overlay prompt */}
+            <div className="absolute inset-0 bg-navy-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white p-2 text-center">
+              <FiSmartphone className="w-6 h-6 text-coral-400 mb-1 animate-bounce" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-coral-300">Click to Explore</span>
+              <span className="text-[9px] text-slate-300">10+ App Screens</span>
+            </div>
+          </div>
 
-            {/* Yarn Ball Core Spherical Grooves */}
-            <circle cx="50" cy="50" r="28" fill="#fbcfe8" stroke="#ec4899" strokeWidth="3" />
-            <path d="M 32 38 C 40 45, 60 45, 68 38" stroke="#db2777" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 28 50 C 38 60, 62 60, 72 50" stroke="#db2777" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 32 62 C 40 55, 60 55, 68 62" stroke="#db2777" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 50 22 C 42 35, 42 65, 50 78" stroke="#f43f5e" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 60 25 C 55 35, 55 65, 60 75" stroke="#f43f5e" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-          
-          <div className="flex flex-col items-center">
-            <span className="text-[10px] font-mono text-pink-650 dark:text-pink-400 bg-pink-500/10 px-2 py-0.5 rounded-full font-bold">YARN CRAFTS</span>
-            <span className="text-[9px] font-mono text-slate-400 mt-1">E-Commerce & E-Learning</span>
+          {/* Bottom Home Bar */}
+          <div className="h-1.5 w-full flex items-center justify-center">
+            <div className="w-8 h-0.5 bg-slate-600 rounded-full" />
           </div>
+        </div>
+
+        {/* Badges */}
+        <div className="absolute top-3 right-3 flex items-center space-x-1.5 bg-navy-900/90 border border-coral-500/40 text-coral-400 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold shadow-lg backdrop-blur-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-coral-400 animate-pulse" />
+          <span>10+ Screens</span>
+        </div>
+
+        <div className="absolute bottom-3 left-4 flex items-center space-x-1.5 bg-navy-950/90 border border-navy-700/80 text-white px-3 py-1 rounded-xl text-[11px] font-mono font-bold shadow-md backdrop-blur-md">
+          <span className="text-coral-400">⚡</span>
+          <span>Khelza</span>
         </div>
       </div>
     );
   }
-  if (id === 'fruit-freshness') {
+
+  // E-Commerce Web App (Yarn Art Store) - Live First Page & Click to Visit Website
+  if (id === 'yarn-art-store') {
+    const handleOpenWebsite = () => {
+      window.open("https://yarn-art-store.vercel.app", "_blank", "noopener,noreferrer");
+    };
+
     return (
-      <div className="w-full h-full bg-gradient-to-tr from-emerald-500/20 via-teal-500/10 to-sky-500/20 flex flex-col items-center justify-center relative p-6">
-        {/* Floating background grids */}
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
-        
-        {/* Abstract CNN classification visual */}
-        <div className="relative z-10 flex flex-col items-center space-y-3">
-          <div className="flex space-x-2">
-            <FaApple className="w-10 h-10 text-emerald-500 animate-pulse" />
-            <div className="flex flex-col text-left">
-              <span className="text-[10px] font-mono text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">FRESH: 98.6%</span>
-              <span className="text-[9px] font-mono text-slate-400">Classifying...</span>
-            </div>
+      <div 
+        onClick={handleOpenWebsite}
+        className="w-full h-full bg-slate-900 flex flex-col relative overflow-hidden group cursor-pointer"
+        role="button"
+        tabIndex={0}
+        aria-label="Visit Yarn Art Store live website"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') handleOpenWebsite();
+        }}
+      >
+        {/* Browser Top Bar Mockup */}
+        <div className="w-full bg-slate-950 border-b border-slate-800 px-3 py-2 flex items-center space-x-2 z-10 select-none">
+          <div className="flex space-x-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
           </div>
-          {/* Mock Node Connections */}
-          <svg className="w-24 h-8 text-emerald-500/40" viewBox="0 0 100 30">
-            <circle cx="15" cy="15" r="3" fill="currentColor" />
-            <circle cx="50" cy="5" r="3" fill="currentColor" />
-            <circle cx="50" cy="15" r="3" fill="currentColor" />
-            <circle cx="50" cy="25" r="3" fill="currentColor" />
-            <circle cx="85" cy="15" r="3" fill="currentColor" />
-            <line x1="15" y1="15" x2="50" y2="5" stroke="currentColor" strokeWidth="0.5" />
-            <line x1="15" y1="15" x2="50" y2="15" stroke="currentColor" strokeWidth="0.5" />
-            <line x1="15" y1="15" x2="50" y2="25" stroke="currentColor" strokeWidth="0.5" />
-            <line x1="50" y1="5" x2="85" y2="15" stroke="currentColor" strokeWidth="0.5" />
-            <line x1="50" y1="15" x2="85" y2="15" stroke="currentColor" strokeWidth="0.5" />
-            <line x1="50" y1="25" x2="85" y2="15" stroke="currentColor" strokeWidth="0.5" />
-          </svg>
+          <div className="flex-1 max-w-[200px] mx-auto bg-slate-900 rounded-md px-2 py-0.5 text-[10px] font-mono text-slate-400 truncate flex items-center justify-center space-x-1">
+            <span className="text-coral-400">🔒</span>
+            <span>yarn-art-store.vercel.app</span>
+          </div>
+        </div>
+
+        {/* Live Website Homepage Screenshot */}
+        <div className="relative flex-1 w-full overflow-hidden bg-slate-950">
+          <img 
+            src="/yarn_art.png" 
+            alt="Yarn Art Store Live Website" 
+            className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              // Fallback
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/projects/khelza/home.png";
+            }}
+          />
+
+          {/* Interactive Click Overlay */}
+          <div className="absolute inset-0 bg-navy-950/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white p-4 text-center">
+            <FiGlobe className="w-8 h-8 text-coral-400 mb-2 animate-pulse" />
+            <span className="text-xs font-extrabold uppercase tracking-wider text-white">Visit Live Store</span>
+            <span className="text-[10px] text-coral-300 font-mono mt-0.5">yarn-art-store.vercel.app ↗</span>
+          </div>
+        </div>
+
+        {/* Badges */}
+        <div className="absolute top-10 right-3 flex items-center space-x-1.5 bg-navy-950/90 border border-coral-500/40 text-coral-400 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold shadow-lg backdrop-blur-md z-20">
+          <span className="w-1.5 h-1.5 rounded-full bg-coral-400 animate-pulse" />
+          <span>Live Store</span>
         </div>
       </div>
     );
   }
-  if (id === 'notes-app') {
-    return (
-      <div className="w-full h-full bg-gradient-to-tr from-amber-500/20 via-orange-500/10 to-rose-500/20 flex items-center justify-center relative p-6">
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
-        <div className="relative z-10 flex flex-col items-center space-y-3">
-          <FaStickyNote className="w-12 h-12 text-orange-500" />
-          {/* Note representation lines */}
-          <div className="w-24 space-y-1">
-            <div className="h-1.5 w-full bg-orange-400/20 rounded" />
-            <div className="h-1.5 w-3/4 bg-orange-400/20 rounded" />
-            <div className="h-1.5 w-5/6 bg-orange-400/20 rounded" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-  if (id === 'sports-finder') {
-    return (
-      <div className="w-full h-full bg-gradient-to-tr from-sky-500/20 via-indigo-500/10 to-violet-500/20 flex items-center justify-center relative p-6">
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
-        <div className="relative z-10 flex flex-col items-center space-y-3">
-          <div className="flex space-x-2 items-center">
-            <FaFutbol className="w-12 h-12 text-sky-500 animate-spin-slow" />
-            <div className="text-left font-mono">
-              <div className="h-2 w-16 bg-sky-500/20 rounded mb-1" />
-              <div className="h-1.5 w-12 bg-sky-500/10 rounded" />
-            </div>
-          </div>
-          {/* Radar map concentric rings */}
-          <div className="w-20 h-6 border border-sky-500/20 rounded-full relative flex items-center justify-center">
-            <div className="w-10 h-3 border border-sky-500/20 rounded-full" />
-            <div className="w-2 h-2 rounded-full bg-sky-500 absolute animate-ping" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return <div className="w-full h-full bg-slate-200 dark:bg-slate-800" />;
+
+  return <div className="w-full h-full bg-slate-200 dark:bg-navy-900" />;
 };
 
-const CATEGORIES = ["All", "MERN Stack", "React Native"];
+const CATEGORIES = ["All", "React Native", "MERN Stack"];
 
 export default function Projects() {
   const { projects } = portfolioData;
   const [activeTab, setActiveTab] = useState("All");
+  const [selectedGalleryProject, setSelectedGalleryProject] = useState(null);
+  const [activeScreenIndex, setActiveScreenIndex] = useState(0);
 
   const filteredProjects = activeTab === "All"
     ? projects
     : projects.filter(project => project.category === activeTab);
 
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!selectedGalleryProject) return;
+
+      if (e.key === 'Escape') {
+        setSelectedGalleryProject(null);
+      } else if (e.key === 'ArrowRight') {
+        setActiveScreenIndex((prev) => 
+          (prev + 1) % (selectedGalleryProject.screenshots?.length || 1)
+        );
+      } else if (e.key === 'ArrowLeft') {
+        setActiveScreenIndex((prev) => 
+          prev === 0 ? (selectedGalleryProject.screenshots?.length || 1) - 1 : prev - 1
+        );
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedGalleryProject]);
+
+  const openGallery = (project, screenIndex = 0) => {
+    setSelectedGalleryProject(project);
+    setActiveScreenIndex(screenIndex);
+  };
+
+  const closeGallery = () => {
+    setSelectedGalleryProject(null);
+  };
+
+  const currentScreens = selectedGalleryProject?.screenshots || [];
+  const currentScreen = currentScreens[activeScreenIndex] || null;
+
   return (
-    <section id="projects" className="py-24 bg-slate-50 dark:bg-slate-950 px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="py-24 bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-slate-100 px-4 sm:px-6 lg:px-8 relative transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
         {/* Section Title */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent mb-2"
-          >
-            My Work
-          </motion.h2>
-          <motion.h3
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans"
-          >
-            Featured Engineering Projects
-          </motion.h3>
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Featured Projects
+            </h2>
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl">
+            Real-world applications spanning cross-platform mobile systems and full-stack web platforms.
+          </p>
         </div>
 
         {/* Tab Filters */}
@@ -169,10 +216,10 @@ export default function Projects() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
+              className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                 activeTab === tab
-                  ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md"
-                  : "bg-slate-100 dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"
+                  ? "bg-coral-500 text-white shadow-lg shadow-coral-500/30 scale-105"
+                  : "bg-white/80 dark:bg-navy-900/70 border border-slate-200 dark:border-navy-800 text-slate-600 dark:text-slate-400 hover:text-coral-500 dark:hover:text-white hover:border-coral-500/40"
               }`}
             >
               {tab}
@@ -183,7 +230,7 @@ export default function Projects() {
         {/* Projects Cards Grid */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto gap-8"
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
@@ -194,34 +241,69 @@ export default function Projects() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
-                className="flex flex-col rounded-3xl overflow-hidden glassmorphism border border-slate-200/50 dark:border-slate-800/50 shadow-xl group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                className="flex flex-col rounded-3xl overflow-hidden bg-white/90 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 shadow-lg group hover:border-coral-500/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 text-left"
               >
                 {/* Visual Top Area */}
-                <div className="h-48 overflow-hidden relative border-b border-slate-200/50 dark:border-slate-800/80 bg-slate-900/10">
-                  <ProjectVisual project={project} id={project.id} />
+                <div className="h-64 overflow-hidden relative border-b border-slate-200 dark:border-navy-800 bg-slate-900">
+                  <ProjectVisual 
+                    project={project} 
+                    id={project.id} 
+                    onOpenGallery={openGallery}
+                  />
                   
                   {/* Category tag */}
-                  <span className="absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-white px-3 py-1 rounded-full shadow-sm">
+                  <span className="absolute top-4 left-4 text-[10px] font-mono font-bold uppercase tracking-wider bg-white/95 dark:bg-navy-950/90 border border-slate-200 dark:border-navy-800 text-slate-800 dark:text-white px-3 py-1 rounded-full shadow-md backdrop-blur-md">
                     {project.category}
                   </span>
+
+                  {project.badge && (
+                    <span className="absolute bottom-4 right-4 text-[10px] font-mono font-semibold uppercase tracking-wider bg-coral-500 text-white px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                      {project.badge}
+                    </span>
+                  )}
                 </div>
 
                 {/* Details Content Area */}
-                <div className="p-6 flex flex-col flex-grow text-left space-y-4">
-                  <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
-                    {project.title}
-                  </h4>
+                <div className="p-6 sm:p-7 flex flex-col flex-grow space-y-4">
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900 dark:text-white group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
+                      {project.title}
+                    </h4>
+                    {project.subtitle && (
+                      <p className="text-xs font-mono text-coral-600 dark:text-coral-400/90 mt-0.5">
+                        {project.subtitle}
+                      </p>
+                    )}
+                  </div>
                   
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed flex-grow">
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed flex-grow">
                     {project.description}
                   </p>
+
+                  {/* Feature Highlights */}
+                  {project.features && (
+                    <div className="space-y-1.5 pt-1">
+                      <p className="text-[11px] uppercase font-mono font-bold text-slate-500 dark:text-slate-400">
+                        Key Features:
+                      </p>
+                      <ul className="space-y-1">
+                        {project.features.slice(0, 3).map((feat, fIdx) => (
+                          <li key={fIdx} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-1.5">
+                            <span className="text-coral-500 font-bold">•</span>
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {/* Technology Pills */}
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     {project.tech.map((t) => (
                       <span
                         key={t}
-                        className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/50 px-2.5 py-1 rounded-lg"
+                        className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-navy-950 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-navy-800"
                       >
                         {t}
                       </span>
@@ -229,13 +311,23 @@ export default function Projects() {
                   </div>
 
                   {/* Call-to-actions */}
-                  <div className="flex items-center flex-wrap gap-3 pt-4 border-t border-slate-200/50 dark:border-slate-800/80">
+                  <div className="flex items-center flex-wrap gap-3 pt-4 border-t border-slate-200 dark:border-navy-800">
+                    {/* View Screenshots Gallery Button for Khelza */}
+                    {project.screenshots && project.screenshots.length > 0 && (
+                      <button
+                        onClick={() => openGallery(project, 0)}
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-coral-500 hover:bg-coral-600 text-white shadow-lg shadow-coral-500/25 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <FiSmartphone className="w-4 h-4" /> Explore App Screens (10+ Screens)
+                      </button>
+                    )}
+
                     {project.github && (
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-800 dark:text-white hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-navy-800 dark:hover:bg-navy-700 text-slate-800 dark:text-white border border-slate-300 dark:border-navy-700 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
                       >
                         <FiGithub className="w-4 h-4" /> Code
                       </a>
@@ -246,16 +338,16 @@ export default function Projects() {
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-650 text-white shadow-md hover:shadow-sky-500/15 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold bg-coral-500 hover:bg-coral-600 text-white shadow-lg shadow-coral-500/25 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
                       >
                         <FiExternalLink className="w-4 h-4" /> Live Demo
                       </a>
                     )}
 
                     {!project.github && !project.live && (
-                      <div className="flex items-center space-x-2 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/50 px-3.5 py-2 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>Mobile App • Private / Client Repository</span>
+                      <div className="flex items-center space-x-2 text-[11px] font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-navy-950 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-navy-800 ml-auto">
+                        <span className="w-1.5 h-1.5 rounded-full bg-coral-500 animate-pulse" />
+                        <span>Private Client Repo</span>
                       </div>
                     )}
                   </div>
@@ -266,6 +358,219 @@ export default function Projects() {
         </motion.div>
 
       </div>
+
+      {/* Interactive Mobile Device Showcase Modal (No duplicate time!) */}
+      <AnimatePresence>
+        {selectedGalleryProject && currentScreen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-navy-950/85 backdrop-blur-md overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-5xl bg-navy-900 border border-navy-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col my-auto text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-5 sm:px-8 border-b border-navy-800 bg-navy-950">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-coral-500/10 text-coral-400 rounded-xl border border-coral-500/20">
+                    <FiSmartphone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <h3 className="font-extrabold text-lg text-white font-sans">
+                        {selectedGalleryProject.title}
+                      </h3>
+                      <span className="text-[10px] font-mono font-bold bg-coral-500/20 text-coral-400 px-2.5 py-0.5 rounded-full border border-coral-500/30">
+                        Screen {activeScreenIndex + 1} of {currentScreens.length}+
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400">
+                      Devoic Skilltech Consultancy Pvt. Ltd. • React Native & Convex • 10+ Screen Architecture
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={closeGallery}
+                  className="p-2.5 rounded-full bg-navy-800 hover:bg-navy-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <FiX className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Modal Body: 2 Columns */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 p-6 sm:p-8 gap-8 items-center bg-navy-900">
+                
+                {/* Left: Device Mockup Phone Frame */}
+                <div className="lg:col-span-5 flex flex-col items-center justify-center">
+                  <div className="relative w-[270px] sm:w-[290px] h-[540px] sm:h-[580px] bg-navy-950 rounded-[44px] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.9)] border-[4px] border-navy-700/80 ring-1 ring-coral-500/30 flex flex-col relative group">
+                    
+                    {/* Minimal Top Speaker / Camera Notch (Removed duplicate time bar) */}
+                    <div className="w-full flex justify-center items-center pt-1 pb-2 select-none">
+                      <div className="w-12 h-1 bg-navy-800 rounded-full" />
+                    </div>
+
+                    {/* Screenshot Image Container */}
+                    <div className="relative flex-1 w-full rounded-[28px] overflow-hidden bg-navy-950 border border-navy-800">
+                      <AnimatePresence mode="wait">
+                        <motion.img
+                          key={currentScreen.src}
+                          src={currentScreen.src}
+                          alt={currentScreen.title}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.25 }}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </AnimatePresence>
+
+                      {/* Screen Navigation Arrows (over phone screen) */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveScreenIndex((prev) => 
+                            prev === 0 ? currentScreens.length - 1 : prev - 1
+                          );
+                        }}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-navy-950/80 hover:bg-navy-900 text-white border border-navy-700 shadow-lg backdrop-blur-sm cursor-pointer transition-all hover:scale-110 active:scale-95"
+                        aria-label="Previous screen"
+                      >
+                        <FiChevronLeft className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveScreenIndex((prev) => 
+                            (prev + 1) % currentScreens.length
+                          );
+                        }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-navy-950/80 hover:bg-navy-900 text-white border border-navy-700 shadow-lg backdrop-blur-sm cursor-pointer transition-all hover:scale-110 active:scale-95"
+                        aria-label="Next screen"
+                      >
+                        <FiChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Bottom Home Indicator Bar */}
+                    <div className="h-3 w-full flex items-center justify-center pt-1">
+                      <div className="w-24 h-1 bg-slate-600 rounded-full" />
+                    </div>
+                  </div>
+
+                  {/* Micro hint */}
+                  <span className="text-[11px] text-slate-500 font-mono mt-3">
+                    Use ← and → arrow keys to flip screens
+                  </span>
+                </div>
+
+                {/* Right: Screen Details & Thumbnail Selector */}
+                <div className="lg:col-span-7 flex flex-col space-y-6 text-left">
+                  {/* Active Screen Information */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider bg-coral-500/20 text-coral-400 border border-coral-500/30">
+                        {currentScreen.tag}
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">
+                        Screen {activeScreenIndex + 1} of {currentScreens.length}+
+                      </span>
+                    </div>
+
+                    <h4 className="text-2xl sm:text-3xl font-bold text-white font-sans">
+                      {currentScreen.title}
+                    </h4>
+
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {currentScreen.caption}
+                    </p>
+                  </div>
+
+                  {/* Architecture & Implementation Highlights */}
+                  <div className="p-4 rounded-2xl bg-navy-950 border border-navy-800 space-y-2.5">
+                    <h5 className="text-xs font-bold font-mono text-coral-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <FiLayers className="text-coral-400" />
+                      Key Development Contributions
+                    </h5>
+                    <ul className="text-xs text-slate-300 space-y-1.5">
+                      <li className="flex items-start gap-2">
+                        <FiCheckCircle className="text-coral-400 w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                        <span><strong>Interactive Map Geolocation:</strong> Integrated Leaflet / OpenStreetMap for live venue location pin selection and nearby player radius match finder.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <FiCheckCircle className="text-coral-400 w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                        <span><strong>Convex Real-Time Backend:</strong> Instant match synchronization, spot reservation counters, and attendee lists without manual polling.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <FiCheckCircle className="text-coral-400 w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                        <span><strong>Athlete Profiles & Social Networking:</strong> Match history, sports categorization (Football, Cricket, Basketball, Badminton), follower system, and dark mode UI.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Thumbnails Navigation Strip */}
+                  <div className="space-y-2.5">
+                    <p className="text-xs font-mono font-bold uppercase text-slate-400">
+                      Jump to Screen:
+                    </p>
+                    <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                      {currentScreens.map((screen, idx) => (
+                        <button
+                          key={screen.id}
+                          onClick={() => setActiveScreenIndex(idx)}
+                          className={`flex flex-col items-center p-1 rounded-xl transition-all cursor-pointer border ${
+                            activeScreenIndex === idx
+                              ? "border-coral-500 bg-coral-500/10 ring-2 ring-coral-500/50 scale-105"
+                              : "border-navy-800 bg-navy-950 hover:border-navy-700 opacity-70 hover:opacity-100"
+                          }`}
+                        >
+                          <div className="w-full h-16 rounded-lg overflow-hidden bg-navy-900 mb-1">
+                            <img
+                              src={screen.src}
+                              alt={screen.title}
+                              className="w-full h-full object-cover object-top"
+                            />
+                          </div>
+                          <span className="text-[9px] font-mono truncate w-full text-center text-slate-300">
+                            {screen.title.split(' ')[0]}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex items-center justify-between pt-4 border-t border-navy-800">
+                    <button
+                      onClick={() => setActiveScreenIndex((prev) => 
+                        prev === 0 ? currentScreens.length - 1 : prev - 1
+                      )}
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-navy-800 hover:bg-navy-700 text-white flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105 active:scale-95"
+                    >
+                      <FiChevronLeft className="w-4 h-4" /> Previous Screen
+                    </button>
+
+                    <button
+                      onClick={() => setActiveScreenIndex((prev) => 
+                        (prev + 1) % currentScreens.length
+                      )}
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-coral-500 hover:bg-coral-600 text-white flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105 active:scale-95"
+                    >
+                      Next Screen <FiChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

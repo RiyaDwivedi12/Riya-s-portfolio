@@ -22,14 +22,20 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Simple active link highlight strategy based on scroll position
+      // Check if user is scrolled near bottom of page
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+        setActiveSection('contact');
+        return;
+      }
+
+      // Active link highlight strategy based on scroll position
       const sections = navLinks.map(link => link.href.substring(1));
       let currentSection = 'home';
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 120) {
+          if (rect.top <= 140 && rect.bottom >= 140) {
             currentSection = section;
             break;
           }
@@ -64,7 +70,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-lg border-b border-slate-200/50 dark:border-slate-800/50 py-3'
+          ? 'bg-white/90 dark:bg-navy-950/90 backdrop-blur-md shadow-md border-b border-slate-200/80 dark:border-navy-800/80 py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -74,12 +80,10 @@ export default function Navbar() {
           <a
             href="#home"
             onClick={(e) => handleClick(e, '#home')}
-            className="flex items-center space-x-2 font-sans font-bold text-xl tracking-wider bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent group select-none"
+            className="flex items-center space-x-2 font-sans font-extrabold text-xl tracking-tight text-slate-900 dark:text-white group select-none"
           >
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-500 to-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-[0_0_15px_rgba(14,165,233,0.3)] transition-transform group-hover:rotate-12">
-              RD
-            </span>
             <span>Riya Dwivedi</span>
+            <span className="text-coral-500 font-black text-2xl">.</span>
           </a>
 
           {/* Desktop Nav Links */}
@@ -94,15 +98,15 @@ export default function Navbar() {
                   onClick={(e) => handleClick(e, link.href)}
                   className={`relative font-sans text-sm font-medium transition-colors duration-200 py-1 ${
                     isActive
-                      ? 'text-sky-500 dark:text-sky-400 font-semibold'
-                      : 'text-slate-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400'
+                      ? 'text-coral-600 dark:text-coral-400 font-semibold'
+                      : 'text-slate-600 hover:text-coral-600 dark:text-slate-300 dark:hover:text-coral-400'
                   }`}
                 >
                   {link.name}
                   {isActive && (
                     <motion.span
                       layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-sky-500 to-violet-500 rounded-full"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-coral-500 rounded-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -115,7 +119,7 @@ export default function Navbar() {
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
+              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-navy-800 transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
               {isOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
@@ -132,7 +136,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden border-b border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg overflow-hidden"
+            className="md:hidden border-b border-slate-200 dark:border-navy-800 bg-white/95 dark:bg-navy-950/95 backdrop-blur-lg overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-3">
               {navLinks.map((link) => {
@@ -145,8 +149,8 @@ export default function Navbar() {
                     onClick={(e) => handleClick(e, link.href)}
                     className={`block px-3 py-2.5 rounded-xl text-base font-medium transition-colors ${
                       isActive
-                        ? 'bg-sky-500/10 text-sky-500 dark:text-sky-400'
-                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-sky-500'
+                        ? 'bg-coral-500/10 text-coral-600 dark:text-coral-400 font-semibold'
+                        : 'text-slate-700 hover:bg-slate-100 hover:text-coral-600 dark:text-slate-300 dark:hover:bg-navy-900 dark:hover:text-coral-400'
                     }`}
                   >
                     {link.name}

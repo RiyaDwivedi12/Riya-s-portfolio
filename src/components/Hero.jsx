@@ -1,13 +1,38 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiDownload, FiArrowRight, FiMessageSquare } from 'react-icons/fi';
+import { FiDownload, FiArrowRight } from 'react-icons/fi';
+import { 
+  SiHtml5, 
+  SiCss as SiCss3, 
+  SiJavascript, 
+  SiReact, 
+  SiNodedotjs, 
+  SiExpress, 
+  SiMongodb, 
+  SiGit, 
+  SiGithub, 
+  SiCplusplus 
+} from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 
 const TYPING_WORDS = [
   "Software Developer",
-  "MERN Stack Developer",
-  "Frontend Developer",
-  "Problem Solver"
+  "MERN Stack Specialist",
+  "React Native Developer",
+  "Frontend & API Engineer"
+];
+
+const TECH_ITEMS = [
+  { name: 'HTML5', icon: SiHtml5, color: 'hover:text-[#E34F26]' },
+  { name: 'CSS3', icon: SiCss3, color: 'hover:text-[#1572B6]' },
+  { name: 'Javascript', icon: SiJavascript, color: 'hover:text-[#F7DF1E]' },
+  { name: 'Node.js', icon: SiNodedotjs, color: 'hover:text-[#339933]' },
+  { name: 'React', icon: SiReact, color: 'hover:text-[#61DAFB]' },
+  { name: 'Git', icon: SiGit, color: 'hover:text-[#F05032]' },
+  { name: 'Github', icon: SiGithub, color: 'hover:text-slate-900 dark:hover:text-white' },
+  { name: 'MongoDB', icon: SiMongodb, color: 'hover:text-[#47A248]' },
+  { name: 'Express', icon: SiExpress, color: 'hover:text-slate-800 dark:hover:text-slate-300' },
+  { name: 'C++', icon: SiCplusplus, color: 'hover:text-[#00599C]' },
 ];
 
 export default function Hero() {
@@ -22,11 +47,12 @@ export default function Hero() {
     const speed = isDeleting ? 40 : 100;
 
     if (!isDeleting && subText === currentWord) {
-      // Pause at full word before deleting
       timer = setTimeout(() => setIsDeleting(true), 1500);
     } else if (isDeleting && subText === '') {
-      setIsDeleting(false);
-      setWordIdx((prev) => (prev + 1) % TYPING_WORDS.length);
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setWordIdx((prev) => (prev + 1) % TYPING_WORDS.length);
+      }, 500);
     } else {
       timer = setTimeout(() => {
         setSubText(
@@ -47,8 +73,7 @@ export default function Hero() {
       const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = target.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+      const offsetPosition = elementRect - bodyRect - offset;
 
       window.scrollTo({
         top: offsetPosition,
@@ -58,192 +83,171 @@ export default function Hero() {
   };
 
   return (
-    <section
-      id="home"
-      className="min-h-screen relative flex items-center justify-center pt-20 overflow-hidden px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950"
-    >
-      {/* Dynamic Floating SVG Mesh Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-20">
-        <svg className="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-slate-700" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
+    <div id="home" className="relative pt-28 pb-16 overflow-hidden bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      {/* Background ambient radial gradients */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-coral-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Floating abstract decorative objects */}
-      <motion.div
-        animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-        className="absolute top-1/4 right-[10%] w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-400 to-blue-500 opacity-20 blur-[2px] pointer-events-none hidden md:block"
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="absolute bottom-1/4 left-[10%] w-16 h-16 rounded-full bg-gradient-to-tr from-violet-400 to-fuchsia-500 opacity-20 blur-[2px] pointer-events-none hidden md:block"
-      />
-
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 py-12">
-        {/* Left Hand: Hero Text Content */}
-        <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-semibold tracking-wider uppercase"
-          >
-            <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping" />
-            <span>Available for Opportunities</span>
-          </motion.div>
-
-          <div className="space-y-3">
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white"
-            >
-              Hi, I'm{" "}
-              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-violet-600 bg-clip-text text-transparent">
-                {personalInfo.name}
-              </span>
-            </motion.h1>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200 h-10 flex items-center"
-            >
-              <span className="text-slate-500 dark:text-slate-400 mr-2 font-light">a</span>
-              <span className="bg-gradient-to-r from-sky-400 to-violet-500 bg-clip-text text-transparent font-sans">
-                {subText}
-              </span>
-              <span className="w-[3px] h-6 bg-sky-500 ml-1 animate-pulse" />
-            </motion.h2>
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed"
-          >
-            {personalInfo.tagline} Specialize in designing, writing, and deploying resilient backends alongside premium, pixel-perfect frontend experiences.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-wrap gap-4 w-full"
-          >
-            <a
-              href="#projects"
-              onClick={(e) => handleScrollTo(e, '#projects')}
-              className="px-6 py-3.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-600 hover:to-violet-700 text-white shadow-lg hover:shadow-sky-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              View Projects <FiArrowRight className="w-4 h-4" />
-            </a>
-
-            <a
-              href="#contact"
-              onClick={(e) => handleScrollTo(e, '#contact')}
-              className="px-6 py-3.5 rounded-xl text-sm font-semibold glassmorphism border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900/50 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              Contact Me <FiMessageSquare className="w-4 h-4" />
-            </a>
-
-            <a
-              href={personalInfo.resumeUrl}
-              download="Riya_Dwivedi_Resume.pdf"
-              className="px-6 py-3.5 rounded-xl text-sm font-semibold border border-sky-500/30 hover:border-sky-500 text-sky-600 dark:text-sky-400 bg-sky-500/5 hover:bg-sky-500/10 hover:scale-105 active:scale-98 transition-all flex items-center gap-2"
-            >
-              Resume <FiDownload className="w-4 h-4" />
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Right Hand: Interactive Code Mockup Terminal */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, x: 20 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="lg:col-span-5 hidden lg:block"
-        >
-          <div className="w-full relative select-none">
-            {/* Glowing borders */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-violet-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000" />
-            
-            {/* Main Mockup Dashboard */}
-            <div className="relative glassmorphism rounded-2xl border border-slate-200/50 dark:border-slate-800/80 shadow-2xl p-6 overflow-hidden">
-              {/* Window controls */}
-              <div className="flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 pb-4 mb-4">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-rose-500" />
-                  <div className="w-3 h-3 rounded-full bg-amber-500" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                </div>
-                <div className="text-xs text-slate-400 font-mono">riya_dwivedi.js</div>
-              </div>
-
-              {/* IDE Code Content */}
-              <div className="text-left font-mono text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                <span className="text-violet-500 dark:text-violet-400">const</span> developer = &#123;
-                <div className="pl-4">
-                  name: <span className="text-emerald-500">"{personalInfo.name}"</span>,
-                </div>
-                <div className="pl-4">
-                  role: <span className="text-emerald-500">"{personalInfo.title}"</span>,
-                </div>
-                <div className="pl-4">
-                  stack: [
-                  <div className="pl-4 text-sky-500 dark:text-sky-400">
-                    "MongoDB", "Express", "React", "Node.js"
-                  </div>
-                  ],
-                </div>
-                <div className="pl-4">
-                  passion: <span className="text-emerald-500">"Sleek UI/UX & Clean APIs"</span>,
-                </div>
-                <div className="pl-4">
-                  solvingProblems: <span className="text-amber-500">true</span>,
-                </div>
-                &#125;;
-                
-                <div className="mt-4 text-slate-400">
-                  // Function demonstrating action
-                </div>
-                <span className="text-violet-500 dark:text-violet-400">function</span> <span className="text-blue-500">createImpact</span>() &#123;
-                <div className="pl-4">
-                  <span className="text-violet-500 dark:text-violet-400">return</span> developer.stack.map(tech =&gt; &#123;
-                  <div className="pl-4">
-                    deployAwesomeCode(tech);
-                  </div>
-                  &#125;);
-                </div>
-                &#125;
-              </div>
-            </div>
-
-            {/* Float Badge overlay */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center min-h-[70vh]">
+          {/* Left Column: Hello . I'm Riya + Titles & CTAs */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left z-10">
+            {/* "Hello ." */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -bottom-4 -left-4 p-3 rounded-xl glassmorphism border border-slate-200 dark:border-slate-800 shadow-xl flex items-center space-x-2"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-2"
             >
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                <span className="text-xs font-bold">95%</span>
+              Hello <span className="text-coral-500 font-black">.</span>
+            </motion.div>
+
+            {/* Coral horizontal line + "I'm Riya" */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="flex items-center space-x-3 mb-4"
+            >
+              <div className="w-10 sm:w-14 h-[3px] bg-coral-500 rounded-full" />
+              <span className="text-xl sm:text-2xl font-bold text-coral-600 dark:text-coral-400">
+                I'm Riya
+              </span>
+            </motion.div>
+
+            {/* Dynamic Large Heading: Software Developer */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-2 mb-6"
+            >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+                Software Developer
+              </h1>
+              <div className="h-8 flex items-center text-lg sm:text-xl font-medium text-slate-600 dark:text-slate-400">
+                <span className="text-coral-500 mr-2 font-mono">▸</span>
+                <span className="text-slate-800 dark:text-slate-200">{subText}</span>
+                <span className="w-2 h-5 bg-coral-500 ml-1 inline-block animate-pulse" />
               </div>
-              <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Fast Performance</span>
+            </motion.div>
+
+            {/* Tagline / Narrative */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed mb-8"
+            >
+              Passionate developer specializing in full-stack web applications, scalable REST APIs, and cross-platform mobile experiences with clean, modern UI.
+            </motion.p>
+
+            {/* Dual CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap items-center gap-4"
+            >
+              {/* Solid Coral: Got a project? */}
+              <a
+                href="#contact"
+                onClick={(e) => handleScrollTo(e, '#contact')}
+                className="px-7 py-3.5 rounded-full text-sm font-bold bg-coral-500 hover:bg-coral-600 text-white shadow-lg shadow-coral-500/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+              >
+                Got a project? <FiArrowRight className="w-4 h-4" />
+              </a>
+
+              {/* Coral Outline: My resume */}
+              <a
+                href={personalInfo.resumeUrl}
+                download="Riya_Dwivedi_Resume.pdf"
+                className="px-7 py-3.5 rounded-full text-sm font-bold border-2 border-coral-500 text-slate-800 dark:text-slate-200 hover:text-coral-600 dark:hover:text-white hover:bg-coral-500/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+              >
+                My resume <FiDownload className="w-4 h-4" />
+              </a>
             </motion.div>
           </div>
-        </motion.div>
+
+          {/* Right Column: Glowing Circular Ring with Profile Picture & Angle Brackets */}
+          <div className="lg:col-span-5 flex justify-center items-center relative z-10">
+            <div className="relative">
+              {/* Floating Wireframe Angle Bracket: < */}
+              <motion.div
+                animate={{ y: [0, -12, 0], x: [0, -4, 0] }}
+                transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
+                className="absolute -top-6 -left-6 sm:-top-8 sm:-left-8 text-5xl sm:text-6xl font-light font-mono text-coral-500/70 select-none pointer-events-none z-20 drop-shadow-[0_0_12px_rgba(255,94,77,0.5)]"
+              >
+                &lt;
+              </motion.div>
+
+              {/* Floating Wireframe Angle Bracket: > */}
+              <motion.div
+                animate={{ y: [0, 12, 0], x: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}
+                className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 text-5xl sm:text-6xl font-light font-mono text-coral-500/70 select-none pointer-events-none z-20 drop-shadow-[0_0_12px_rgba(255,94,77,0.5)]"
+              >
+                &gt;
+              </motion.div>
+
+              {/* Glowing Outer Halo */}
+              <div className="absolute inset-0 rounded-full bg-coral-500/20 blur-2xl transform scale-110" />
+
+              {/* Circular Avatar Frame */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-1.5 bg-gradient-to-tr from-coral-500 via-coral-400 to-amber-400 shadow-[0_0_50px_rgba(255,94,77,0.4)]"
+              >
+                <div className="w-full h-full rounded-full overflow-hidden bg-slate-100 dark:bg-navy-900 border-4 border-white dark:border-navy-950">
+                  <img
+                    src="/riya_profile.png"
+                    alt="Riya Dwivedi"
+                    className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/projects/khelza/profile.png";
+                    }}
+                  />
+                </div>
+              </motion.div>
+
+              {/* Floating Experience Badge */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+                className="absolute -bottom-3 left-4 sm:-bottom-4 sm:left-6 px-4 py-2 rounded-full bg-white/95 dark:bg-navy-900/90 border border-slate-200 dark:border-coral-500/40 shadow-xl backdrop-blur-md flex items-center space-x-2 text-xs font-bold text-slate-800 dark:text-white z-20"
+              >
+                <span className="w-2.5 h-2.5 rounded-full bg-coral-500 animate-pulse" />
+                <span>Open for Opportunities</span>
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      {/* Horizontal Tech Strip directly beneath Hero */}
+      <div className="mt-16 w-full bg-white/80 dark:bg-navy-900/80 border-y border-slate-200/80 dark:border-navy-800/80 backdrop-blur-md py-6 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-6 overflow-x-auto scrollbar-none py-2">
+            {TECH_ITEMS.map((tech) => {
+              const Icon = tech.icon;
+              return (
+                <div
+                  key={tech.name}
+                  className={`flex items-center space-x-2.5 text-slate-600 dark:text-slate-400 transition-colors duration-200 cursor-default shrink-0 group ${tech.color}`}
+                >
+                  <Icon className="w-6 h-6 transition-transform group-hover:scale-110" />
+                  <span className="text-sm font-semibold tracking-wide text-slate-700 dark:text-slate-300 group-hover:text-coral-600 dark:group-hover:text-white">
+                    {tech.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

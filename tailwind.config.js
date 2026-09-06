@@ -8,6 +8,25 @@ export default {
   theme: {
     extend: {
       colors: {
+        coral: {
+          50: '#fff5f4',
+          100: '#ffe8e5',
+          200: '#ffd5cf',
+          300: '#ffb5a9',
+          400: '#ff7a6b',
+          500: '#ff5e4d',
+          600: '#eb4d3d',
+          700: '#c5382a',
+          800: '#a33126',
+          900: '#872e26',
+          950: '#4a140f',
+        },
+        navy: {
+          800: '#1a233b',
+          850: '#141c30',
+          900: '#101626',
+          950: '#0b0f19',
+        },
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -25,8 +44,10 @@ export default {
       fontFamily: {
         sans: ['Outfit', 'Inter', 'sans-serif'],
       },
+      animation: {
+        'spin-slow': 'spin 8s linear infinite',
+      },
     },
   },
   plugins: [],
 }
-

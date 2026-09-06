@@ -6,19 +6,22 @@ export default function Experience() {
   const { experience } = portfolioData;
 
   return (
-    <section id="experience" className="text-left w-full">
-      {/* Title */}
+    <section id="work-experience" className="text-left w-full">
+      {/* Title with Behance coral bar */}
       <div className="mb-10">
-        <h3 className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent mb-2">
-          Career Path
-        </h3>
-        <h4 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-sans">
-          Work Experience
-        </h4>
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">
+            Work Experience
+          </h3>
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-mono pl-11">
+          Career Trajectory & Internships
+        </p>
       </div>
 
       {/* Timeline track */}
-      <div className="relative pl-6 border-l border-slate-200 dark:border-slate-800 space-y-12 py-2">
+      <div className="relative pl-7 border-l-2 border-slate-200 dark:border-navy-800 space-y-10 py-2">
         {experience.map((job, idx) => (
           <motion.div
             key={idx}
@@ -28,26 +31,26 @@ export default function Experience() {
             transition={{ duration: 0.5, delay: idx * 0.15 }}
             className="relative group"
           >
-            {/* Timeline node */}
-            <div className="absolute -left-[37px] top-1 p-2 rounded-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-400 group-hover:text-sky-500 group-hover:border-sky-500 transition-all duration-300 shadow-md">
-              <FiBriefcase className="w-4 h-4" />
+            {/* Timeline node with coral ring */}
+            <div className="absolute -left-[38px] top-1.5 p-2 rounded-full bg-white dark:bg-navy-950 border-2 border-coral-500 text-coral-500 group-hover:scale-110 transition-all duration-300 shadow-[0_0_12px_rgba(255,94,77,0.4)]">
+              <FiBriefcase className="w-3.5 h-3.5" />
             </div>
 
             {/* Content card */}
-            <div className="p-6 rounded-2xl bg-white/40 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/50 hover:bg-white/60 dark:hover:bg-slate-900/60 shadow-lg hover:shadow-xl transition-all duration-300 space-y-4">
+            <div className="p-6 rounded-2xl bg-white/80 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 hover:border-coral-500/40 shadow-md hover:shadow-xl transition-all duration-300 space-y-4">
               
               {/* Header details */}
               <div className="space-y-1">
-                <span className="inline-flex items-center space-x-1 text-[11px] font-semibold text-slate-400 dark:text-slate-500 font-mono">
+                <span className="inline-flex items-center space-x-1.5 text-xs font-semibold text-coral-600 dark:text-coral-400 font-mono">
                   <FiCalendar className="w-3.5 h-3.5" />
                   <span>{job.duration}</span>
                 </span>
                 
-                <h5 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
+                <h5 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
                   {job.role}
                 </h5>
                 
-                <p className="text-sm font-semibold text-sky-500 dark:text-sky-400 uppercase tracking-wider font-mono">
+                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider font-mono">
                   {job.company}
                 </p>
               </div>
@@ -55,8 +58,8 @@ export default function Experience() {
               {/* Bullet list of achievements/duties */}
               <ul className="space-y-2">
                 {job.responsibilities.map((resp, rIdx) => (
-                  <li key={rIdx} className="flex items-start text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    <span className="mr-2 text-sky-500 dark:text-sky-400 font-bold">•</span>
+                  <li key={rIdx} className="flex items-start text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <span className="mr-2 text-coral-500 font-bold">•</span>
                     <span>{resp}</span>
                   </li>
                 ))}

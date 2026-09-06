@@ -37,24 +37,73 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      setIsSubmitting(true);
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setShowToast(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
+  const [toastMessage, setToastMessage] = useState({ title: '', desc: '', isError: false });
 
-        // Hide toast automatically after 4 seconds
-        setTimeout(() => setShowToast(false), 4000);
-      }, 1500);
+  const [submittedStatus, setSubmittedStatus] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    setSubmittedStatus(null);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _subject: `Portfolio Message from ${formData.name}: ${formData.subject}`,
+          _template: "table"
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success !== "false") {
+        setSubmittedStatus({
+          type: 'success',
+          message: data.message || "Message sent successfully!"
+        });
+        setToastMessage({
+          title: "Message Submitted!",
+          desc: `Check ${personalInfo.email} (and Spam folder) for the email or one-time FormSubmit activation link.`,
+          isError: false
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(data.message || "Submission failed");
+      }
+    } catch (err) {
+      // Direct mailto fallback
+      const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
+      window.location.href = mailtoUrl;
+      setToastMessage({
+        title: "Redirecting to Mail Client...",
+        desc: `Opening your email app to send directly to ${personalInfo.email}.`,
+        isError: false
+      });
+    } finally {
+      setIsSubmitting(false);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 9000);
     }
   };
 
+  const handleOpenGmail = () => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(personalInfo.email)}&su=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(formData.message ? `From: ${formData.name || 'Visitor'} (${formData.email || ''})\n\n${formData.message}` : '')}`;
+    window.open(gmailUrl, '_blank');
+  };
+
   return (
-    <section id="contact" className="py-24 bg-slate-50 dark:bg-slate-950 px-4 sm:px-6 lg:px-8 relative">
+    <section id="contact" className="py-24 bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-slate-100 px-4 sm:px-6 lg:px-8 relative transition-colors duration-300">
 
       {/* Toast Notification Container */}
       <div className="fixed top-24 right-6 z-50 pointer-events-none">
@@ -64,16 +113,22 @@ export default function Contact() {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className="pointer-events-auto flex items-center space-x-3 p-4 rounded-2xl bg-emerald-500 text-white shadow-[0_10px_30px_rgba(16,185,129,0.3)] border border-emerald-400/20 max-w-sm"
+              className={`pointer-events-auto flex items-center space-x-3 p-4 rounded-2xl shadow-[0_10px_30px_rgba(255,94,77,0.35)] border max-w-md ${
+                toastMessage.isError
+                  ? 'bg-rose-900/90 text-white border-rose-500'
+                  : 'bg-white dark:bg-navy-900 text-slate-900 dark:text-white border-coral-500'
+              }`}
             >
-              <FiCheckCircle className="w-5 h-5 flex-shrink-0" />
+              <div className="p-2 rounded-xl bg-coral-500/20 text-coral-500">
+                <FiCheckCircle className="w-5 h-5 flex-shrink-0" />
+              </div>
               <div className="text-left">
-                <p className="font-bold text-xs">Message Sent!</p>
-                <p className="text-[10px] opacity-90 mt-0.5">Thank you, Riya will get back to you shortly.</p>
+                <p className="font-bold text-xs">{toastMessage.title}</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5 leading-snug">{toastMessage.desc}</p>
               </div>
               <button
                 onClick={() => setShowToast(false)}
-                className="p-1 hover:bg-emerald-600 rounded transition-colors ml-auto cursor-pointer"
+                className="p-1 hover:bg-slate-100 dark:hover:bg-navy-800 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors ml-auto cursor-pointer"
                 aria-label="Dismiss toast"
               >
                 <FiX className="w-4 h-4" />
@@ -86,25 +141,17 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto">
 
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent mb-2"
-          >
-            Get In Touch
-          </motion.h2>
-          <motion.h3
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans"
-          >
-            Let's Collaborate On Your Next Project
-          </motion.h3>
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Get In Touch
+            </h2>
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl">
+            Have a project in mind, an internship opportunity, or want to discuss full-stack & mobile engineering? Let's talk.
+          </p>
         </div>
 
         {/* 2-Column split layout */}
@@ -115,27 +162,27 @@ export default function Contact() {
             <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
               Contact Information
             </h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
-              Have a project in mind or want to discuss full-time/internship opportunities? Fill out the form or reach out directly on any social channel.
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+              Reach out directly by email or connect with me on GitHub and LinkedIn.
             </p>
 
             {/* Direct Details Cards */}
             <div className="space-y-4">
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="flex items-center space-x-4 p-4 rounded-2xl glassmorphism-card border border-slate-200/50 dark:border-slate-800/50 hover:shadow-lg"
+                className="flex items-center space-x-4 p-5 rounded-2xl bg-white/80 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 hover:border-coral-500/40 shadow-md hover:shadow-xl transition-all duration-300 group"
               >
-                <div className="p-3 bg-sky-500/10 text-sky-500 rounded-xl">
+                <div className="p-3 bg-coral-500/10 text-coral-500 rounded-2xl border border-coral-500/20 group-hover:scale-110 transition-transform">
                   <FiMail className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase font-mono text-slate-400 font-bold">Email Directly</p>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{personalInfo.email}</p>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">{personalInfo.email}</p>
                 </div>
               </a>
 
-              <div className="flex items-center space-x-4 p-4 rounded-2xl glassmorphism-card border border-slate-200/50 dark:border-slate-800/50">
-                <div className="p-3 bg-violet-500/10 text-violet-500 rounded-xl">
+              <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/80 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 shadow-md">
+                <div className="p-3 bg-coral-500/10 text-coral-500 rounded-2xl border border-coral-500/20">
                   <FiMapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -146,14 +193,14 @@ export default function Contact() {
             </div>
 
             {/* Social channels card */}
-            <div className="p-6 rounded-2xl glassmorphism border border-slate-200/50 dark:border-slate-800/80 mt-6">
+            <div className="p-6 rounded-3xl bg-white/80 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 mt-6 shadow-md">
               <h5 className="font-bold text-sm text-slate-900 dark:text-white mb-4">Connect Socially</h5>
               <div className="flex space-x-4">
                 <a
                   href={personalInfo.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/50 dark:hover:bg-slate-800 rounded-xl hover:text-sky-505 hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300"
+                  className="p-3.5 bg-slate-100 dark:bg-navy-950 border border-slate-200 dark:border-navy-800 hover:border-coral-500/40 rounded-2xl hover:text-coral-500 dark:hover:text-coral-400 hover:scale-105 active:scale-95 transition-all text-slate-700 dark:text-slate-300"
                   aria-label="GitHub profile"
                 >
                   <FiGithub className="w-5 h-5" />
@@ -162,7 +209,7 @@ export default function Contact() {
                   href={personalInfo.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/50 dark:hover:bg-slate-800 rounded-xl hover:text-sky-505 hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300"
+                  className="p-3.5 bg-slate-100 dark:bg-navy-950 border border-slate-200 dark:border-navy-800 hover:border-coral-500/40 rounded-2xl hover:text-coral-500 dark:hover:text-coral-400 hover:scale-105 active:scale-95 transition-all text-slate-700 dark:text-slate-300"
                   aria-label="LinkedIn profile"
                 >
                   <FiLinkedin className="w-5 h-5" />
@@ -171,18 +218,18 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Hand: Validated Glassmorphic Form Card */}
+          {/* Right Hand: Form Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-7 p-8 rounded-3xl glassmorphism border border-slate-200/50 dark:border-slate-800/50 shadow-xl relative"
+            className="lg:col-span-7 p-7 sm:p-8 rounded-3xl bg-white/90 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 shadow-xl relative"
           >
             <form onSubmit={handleSubmit} className="space-y-5 text-left">
               {/* Name field */}
               <div className="space-y-1.5">
-                <label htmlFor="name" className="text-xs font-bold font-mono text-slate-500 dark:text-slate-400 uppercase">
+                <label htmlFor="name" className="text-xs font-bold font-mono text-slate-600 dark:text-slate-400 uppercase">
                   Name
                 </label>
                 <input
@@ -192,14 +239,15 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleInputChange}
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border outline-none text-sm transition-all focus:bg-white dark:focus:bg-slate-900 ${errors.name
-                      ? 'border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20'
-                      : 'border-slate-200/80 dark:border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20'
-                    }`}
-                 
+                  placeholder="Your full name"
+                  className={`w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-navy-950 border outline-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-all ${
+                    errors.name
+                      ? 'border-rose-500 focus:border-rose-500'
+                      : 'border-slate-200 dark:border-navy-800 focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30'
+                  }`}
                 />
                 {errors.name && (
-                  <span className="text-[10px] text-rose-500 flex items-center gap-1 font-semibold">
+                  <span className="text-[10px] text-rose-500 dark:text-rose-400 flex items-center gap-1 font-semibold">
                     <FiAlertCircle /> {errors.name}
                   </span>
                 )}
@@ -207,7 +255,7 @@ export default function Contact() {
 
               {/* Email field */}
               <div className="space-y-1.5">
-                <label htmlFor="email" className="text-xs font-bold font-mono text-slate-500 dark:text-slate-400 uppercase">
+                <label htmlFor="email" className="text-xs font-bold font-mono text-slate-600 dark:text-slate-400 uppercase">
                   Email Address
                 </label>
                 <input
@@ -217,14 +265,15 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleInputChange}
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border outline-none text-sm transition-all focus:bg-white dark:focus:bg-slate-900 ${errors.email
-                      ? 'border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20'
-                      : 'border-slate-200/80 dark:border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20'
-                    }`}
-                
+                  placeholder="you@example.com"
+                  className={`w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-navy-950 border outline-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-all ${
+                    errors.email
+                      ? 'border-rose-500 focus:border-rose-500'
+                      : 'border-slate-200 dark:border-navy-800 focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30'
+                  }`}
                 />
                 {errors.email && (
-                  <span className="text-[10px] text-rose-500 flex items-center gap-1 font-semibold">
+                  <span className="text-[10px] text-rose-500 dark:text-rose-400 flex items-center gap-1 font-semibold">
                     <FiAlertCircle /> {errors.email}
                   </span>
                 )}
@@ -232,7 +281,7 @@ export default function Contact() {
 
               {/* Subject field */}
               <div className="space-y-1.5">
-                <label htmlFor="subject" className="text-xs font-bold font-mono text-slate-500 dark:text-slate-400 uppercase">
+                <label htmlFor="subject" className="text-xs font-bold font-mono text-slate-600 dark:text-slate-400 uppercase">
                   Subject
                 </label>
                 <input
@@ -242,14 +291,15 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleInputChange}
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border outline-none text-sm transition-all focus:bg-white dark:focus:bg-slate-900 ${errors.subject
-                      ? 'border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20'
-                      : 'border-slate-200/80 dark:border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20'
-                    }`}
-                 
+                  placeholder="e.g. Project Collaboration / Job Opportunity"
+                  className={`w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-navy-950 border outline-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-all ${
+                    errors.subject
+                      ? 'border-rose-500 focus:border-rose-500'
+                      : 'border-slate-200 dark:border-navy-800 focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30'
+                  }`}
                 />
                 {errors.subject && (
-                  <span className="text-[10px] text-rose-500 flex items-center gap-1 font-semibold">
+                  <span className="text-[10px] text-rose-500 dark:text-rose-400 flex items-center gap-1 font-semibold">
                     <FiAlertCircle /> {errors.subject}
                   </span>
                 )}
@@ -257,7 +307,7 @@ export default function Contact() {
 
               {/* Message field */}
               <div className="space-y-1.5">
-                <label htmlFor="message" className="text-xs font-bold font-mono text-slate-500 dark:text-slate-400 uppercase">
+                <label htmlFor="message" className="text-xs font-bold font-mono text-slate-600 dark:text-slate-400 uppercase">
                   Message
                 </label>
                 <textarea
@@ -267,33 +317,72 @@ export default function Contact() {
                   onChange={handleInputChange}
                   disabled={isSubmitting}
                   rows="4"
-                  className={`w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border outline-none text-sm transition-all resize-none focus:bg-white dark:focus:bg-slate-900 ${errors.message
-                      ? 'border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20'
-                      : 'border-slate-200/80 dark:border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20'
-                    }`}
-                 
+                  placeholder="Write your message here..."
+                  className={`w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-navy-950 border outline-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-all resize-none ${
+                    errors.message
+                      ? 'border-rose-500 focus:border-rose-500'
+                      : 'border-slate-200 dark:border-navy-800 focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30'
+                  }`}
                 />
                 {errors.message && (
-                  <span className="text-[10px] text-rose-500 flex items-center gap-1 font-semibold">
+                  <span className="text-[10px] text-rose-500 dark:text-rose-400 flex items-center gap-1 font-semibold">
                     <FiAlertCircle /> {errors.message}
                   </span>
                 )}
               </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 rounded-xl text-xs font-bold bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-600 hover:to-violet-700 text-white shadow-lg hover:shadow-sky-500/10 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                ) : (
-                  <>
-                    Send Message <FiSend className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+              {/* Status Alert Banner */}
+              {submittedStatus && (
+                <div className="p-4 rounded-2xl bg-coral-500/10 dark:bg-coral-500/15 border border-coral-500/30 text-slate-800 dark:text-slate-100 text-xs leading-relaxed space-y-1.5">
+                  <div className="flex items-center gap-2 font-bold text-coral-600 dark:text-coral-400">
+                    <FiCheckCircle className="w-4 h-4 flex-shrink-0" />
+                    <span>Submission Processed!</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                    If this is your first test submission, <strong>FormSubmit</strong> sends an email with the subject <em>"Action Required: Activate FormSubmit"</em> to <strong>{personalInfo.email}</strong>. 
+                  </p>
+                  <p className="text-[11px] text-coral-600 dark:text-coral-400 font-medium">
+                    👉 Please check your <strong>Gmail Inbox & Spam/Junk folder</strong> and click <strong>"Activate Form"</strong> to enable instant email delivery for all future messages!
+                  </p>
+                </div>
+              )}
+
+              {/* Submit Buttons */}
+              <div className="space-y-3 pt-1">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 rounded-full text-xs font-bold bg-coral-500 hover:bg-coral-600 text-white shadow-lg shadow-coral-500/30 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  ) : (
+                    <>
+                      Send Message <FiSend className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleOpenGmail}
+                  className="w-full py-3 rounded-full text-xs font-semibold bg-slate-100 dark:bg-navy-950 hover:bg-slate-200 dark:hover:bg-navy-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-navy-800 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <FiMail className="w-4 h-4 text-coral-500" />
+                  Open in Gmail Web / Compose
+                </button>
+              </div>
+
+              {/* Quick helper note */}
+              <p className="text-[11px] text-center text-slate-500 dark:text-slate-400">
+                You can also reach out directly anytime at{" "}
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="text-coral-500 hover:underline font-medium"
+                >
+                  {personalInfo.email}
+                </a>
+              </p>
             </form>
           </motion.div>
 

@@ -5,9 +5,9 @@ import { portfolioData } from '../data/portfolioData';
 
 // Map specific achievements to corresponding icons
 const iconMap = {
-  0: <FaTrophy className="w-6 h-6 text-amber-500" />,  // Hackathon
-  1: <FaTrophy className="w-6 h-6 text-yellow-400" />, // Coding competition
-  2: <FiUsers className="w-6 h-6 text-indigo-500" />    // leadership/GDSC
+  0: <FaTrophy className="w-6 h-6 text-coral-500" />,  // Hackathon
+  1: <FaTrophy className="w-6 h-6 text-amber-500" />,  // Coding competition
+  2: <FiUsers className="w-6 h-6 text-coral-500" />     // leadership/GDSC
 };
 
 export default function Achievements() {
@@ -27,29 +27,21 @@ export default function Achievements() {
   };
 
   return (
-    <section id="achievements" className="py-24 bg-slate-50 dark:bg-slate-950 px-4 sm:px-6 lg:px-8">
+    <section id="achievements" className="py-24 bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-slate-100 px-4 sm:px-6 lg:px-8 relative transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
         {/* Section Title */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-sky-500 to-violet-600 bg-clip-text text-transparent mb-2"
-          >
-            Honors
-          </motion.h2>
-          <motion.h3
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans"
-          >
-            Achievements & Student Leadership
-          </motion.h3>
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Achievements & Leadership
+            </h2>
+            <div className="w-8 h-[3px] bg-coral-500 rounded-full" />
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl">
+            Recognitions in competitive programming, hackathons, and technical community building.
+          </p>
         </div>
 
         {/* Achievements Grid */}
@@ -58,33 +50,33 @@ export default function Achievements() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {achievements.map((ach, idx) => (
+          {achievements.map((item, idx) => (
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="p-6 rounded-3xl glassmorphism-card text-left flex flex-col space-y-4 group relative hover:shadow-2xl"
+              className="p-7 rounded-3xl bg-white/80 dark:bg-navy-900/60 border border-slate-200/80 dark:border-navy-800 hover:border-coral-500/40 shadow-md hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group"
             >
-              {/* Top Details */}
-              <div className="flex items-center justify-between">
-                <div className="p-3 bg-slate-100 dark:bg-slate-800/50 rounded-2xl group-hover:scale-110 transition-transform">
-                  {iconMap[idx] || <FaTrophy className="w-6 h-6 text-sky-500" />}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="p-3 bg-coral-500/10 text-coral-500 rounded-2xl border border-coral-500/20 group-hover:scale-110 transition-transform">
+                    {iconMap[idx] || <FaTrophy className="w-6 h-6 text-coral-500" />}
+                  </div>
+                  <span className="inline-flex items-center space-x-1 text-xs font-mono text-slate-500 dark:text-slate-400">
+                    <FiCalendar className="w-3.5 h-3.5" />
+                    <span>{item.year}</span>
+                  </span>
                 </div>
-                <span className="flex items-center space-x-1 text-[10px] font-mono text-slate-400 dark:text-slate-500 font-bold uppercase">
-                  <FiCalendar className="w-3 h-3" />
-                  <span>{ach.date}</span>
-                </span>
-              </div>
 
-              {/* Title & Description */}
-              <div className="space-y-2 flex-grow">
-                <h4 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
-                  {ach.title}
-                </h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {ach.description}
-                </p>
+                <div className="space-y-2">
+                  <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
+                    {item.title}
+                  </h4>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
