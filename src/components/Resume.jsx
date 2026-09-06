@@ -115,8 +115,12 @@ export default function Resume() {
                 {/* Contact row */}
                 <div className="text-[11px] text-slate-800 space-x-3 flex justify-center items-center flex-wrap mt-2">
                   <span>{personalInfo.location}</span>
-                  <span className="text-slate-400">|</span>
-                  <span>{personalInfo.phone || '+91 9640835030'}</span>
+                  {personalInfo.phone && (
+                    <>
+                      <span className="text-slate-400">|</span>
+                      <span>{personalInfo.phone}</span>
+                    </>
+                  )}
                   <span className="text-slate-400">|</span>
                   <a href={`mailto:${personalInfo.email}`} className="text-blue-700 underline hover:text-blue-900">
                     {personalInfo.email}
@@ -230,7 +234,7 @@ export default function Resume() {
                     </p>
                     <ul className="list-disc pl-5 text-[11px] space-y-1 text-slate-900">
                       <li>Engineered multi-screen mobile sports platform connecting players and organizing matches in real time.</li>
-                      <li>Integrated interactive map geolocation with Leaflet / OpenStreetMap for ground location pins and match discovery.</li>
+                      <li>Integrated interactive map geolocation with OpenStreetMap for ground location pins and match discovery.</li>
                       <li>Built real-time match synchronization, spot reservation, attendee tracking, and athlete social networking with Convex.</li>
                     </ul>
                   </div>

@@ -6,7 +6,6 @@ export const portfolioData = {
     bio: "B.Tech Computer Science Engineering student with knowledge of MERN Stack, React.js, JavaScript, and web development. Interested in building useful websites and applications and learning new technologies. Looking for an opportunity to improve technical skills and work on real-world software projects.",
     objective: "Looking for opportunities in Frontend Development, MERN Stack Development, and Software Development where I can use my skills, learn new technologies, and contribute to real-world projects.",
     email: "driya8978@gmail.com",
-    phone: "+91 9640835030",
     location: "Jamalpur, Punjab, India",
     github: "https://github.com/RiyaDwivedi12",
     linkedin: "https://linkedin.com/in/riya-dwivedi-120a87350",
@@ -63,13 +62,13 @@ export const portfolioData = {
       description: "A comprehensive multi-screen mobile sports matchmaking platform connecting athletes and sports enthusiasts in real time across 10+ core user flows. Features include live nearby match discovery powered by interactive map geolocation, multi-sport match creation (Cricket, Football, Basketball, Badminton), athlete profile analytics, match scheduling, and seamless athlete onboarding.",
       features: [
         "Multi-Screen Mobile Architecture across 10+ user flows and interactive screens",
-        "Live Nearby Match Discovery via Interactive Leaflet / OpenStreetMap Integration",
+        "Live Nearby Match Discovery via Interactive OpenStreetMap Integration",
         "Instant Multi-Sport Match Creation (Cricket, Football, Basketball, Badminton)",
         "Athlete Profiles with Match Stats, Followers & Direct Networking",
         "Trending Matches & Real-Time Player Suggestions",
         "Seamless Authentication, Athlete Onboarding & App Preferences"
       ],
-      tech: ["React Native", "Convex", "JavaScript", "Leaflet Maps", "Geolocation", "Tailwind / NativeWind"],
+      tech: ["React Native", "Convex", "JavaScript", "OpenStreetMap", "Geolocation", "Tailwind / NativeWind"],
       category: "React Native",
       github: "",
       live: "",

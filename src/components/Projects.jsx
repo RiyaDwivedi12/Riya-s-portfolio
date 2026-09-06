@@ -499,7 +499,7 @@ export default function Projects() {
                     <ul className="text-xs text-slate-300 space-y-1.5">
                       <li className="flex items-start gap-2">
                         <FiCheckCircle className="text-coral-400 w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                        <span><strong>Interactive Map Geolocation:</strong> Integrated Leaflet / OpenStreetMap for live venue location pin selection and nearby player radius match finder.</span>
+                        <span><strong>Interactive Map Geolocation:</strong> Integrated OpenStreetMap for live venue location pin selection and nearby player radius match finder.</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <FiCheckCircle className="text-coral-400 w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
